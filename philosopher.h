@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:01 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/19 16:36:16 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/21 18:03:13 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_data
 	int				number_of_times_each_philosopher_must_eat;
 }					t_data;
 
+int	dead_loop(t_philo *philo);
 int					is_running(t_data *data);
 long				get_time(void);
 int					print_error(char *msg);

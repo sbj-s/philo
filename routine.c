@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:08 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/19 15:57:14 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/21 18:26:58 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,10 @@ void	ft_sleep(t_philo *philo)
 
 void	ft_think(t_philo *philo)
 {
-	long	think_time;
-
 	if (!is_running(philo->data))
 		return ;
 	print_state(philo, "is thinking");
-	think_time = philo->data->time_to_die - philo->data->time_to_eat
-		- philo->data->time_to_sleep;
-	if (think_time > 0)
-		ft_usleep(think_time / 2);
+	ft_usleep(philo->data->time_to_eat / 10);
 }
 void	ft_alone(t_philo *philo)
 {
@@ -78,7 +73,7 @@ void	*routine(void *arg)
 		return (NULL);
 	}
 	if (philo->philo_id % 2 == 0)
-		ft_usleep(philo->data->time_to_eat / 2);
+		ft_usleep(1);
 	while (is_running(philo->data))
 	{
 		ft_eat(philo);
