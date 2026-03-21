@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:37:53 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/21 18:22:37 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/21 19:48:56 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	check_death(t_data *data, int i)
 	pthread_mutex_lock(&data->mutex_die);
 	if (get_time() - data->philo[i].last_meal >= data->time_to_die)
 	{
-		print_death(&data->philo[i]);
 		data->simulation_run = 0;
 		pthread_mutex_unlock(&data->mutex_die);
+		print_death(&data->philo[i]);
 		return (1);
 	}
 	pthread_mutex_unlock(&data->mutex_die);
@@ -44,7 +44,9 @@ int	check_meals(t_data *data)
 		pthread_mutex_unlock(&data->mutex_die);
 		i++;
 	}
+	pthread_mutex_lock(&data->mutex_die);
 	data->simulation_run = 0;
+	pthread_mutex_unlock(&data->mutex_die);
 	return (1);
 }
 

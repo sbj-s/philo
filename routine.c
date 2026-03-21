@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:08 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/21 18:26:58 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/21 19:41:19 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_eat(t_philo *philo)
 {
 	if (!is_running(philo->data))
 		return ;
-	if (philo->philo_id % 2 == 0)
+	if (philo->philo_id % 2 == 0 || philo->data->number_of_philosopher % 2 != 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		print_state(philo, "take a fork");
@@ -35,6 +35,7 @@ void	ft_eat(t_philo *philo)
 	philo->meal_count++;
 	pthread_mutex_unlock(&philo->data->mutex_die);
 	print_state(philo, "is eating");
+	// printf("%d\n", philo->meal_count);
 	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
@@ -53,7 +54,7 @@ void	ft_think(t_philo *philo)
 	if (!is_running(philo->data))
 		return ;
 	print_state(philo, "is thinking");
-	ft_usleep(philo->data->time_to_eat / 10);
+	ft_usleep(1);
 }
 void	ft_alone(t_philo *philo)
 {
@@ -65,7 +66,8 @@ void	ft_alone(t_philo *philo)
 
 void	*routine(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
+
 	philo = (t_philo *)arg;
 	if (philo->data->number_of_philosopher == 1)
 	{
@@ -73,7 +75,7 @@ void	*routine(void *arg)
 		return (NULL);
 	}
 	if (philo->philo_id % 2 == 0)
-		ft_usleep(1);
+		ft_usleep(philo->data->time_to_eat / 2);
 	while (is_running(philo->data))
 	{
 		ft_eat(philo);
