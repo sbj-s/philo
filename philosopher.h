@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:01 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/17 19:20:14 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:36:16 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 typedef struct s_philo
 {
-    pthread_mutex_t *left_fork;
-    pthread_mutex_t *right_fork;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	int				meal_count;
 	pthread_t		philo;
 	int				philo_id;
@@ -38,6 +38,7 @@ typedef struct s_data
 	t_philo			*philo;
 	pthread_mutex_t	mutex_die;
 	pthread_mutex_t	mutex_print;
+	pthread_mutex_t	mutex_meal;
 	pthread_mutex_t	*fork;
 	int				number_of_philosopher;
 	int				time_to_die;
@@ -46,8 +47,19 @@ typedef struct s_data
 	int				number_of_times_each_philosopher_must_eat;
 }					t_data;
 
+int					is_running(t_data *data);
 long				get_time(void);
 int					print_error(char *msg);
 long				ft_atol(const char *str);
-
+void				print_state(t_philo *philo, char *msg);
+void				ft_usleep(long ms);
+int					check_death(t_data *data, int i);
+int					check_meals(t_data *data);
+void				*monitoring(void *arg);
+void				*routine(void *arg);
+int					check_args(int argc, char **argv);
+t_data				*init_data(int argc, char **argv);
+int					init_forks(t_data *data);
+int					init_philos(t_data *data);
+void				print_death(t_philo *philo);
 #endif

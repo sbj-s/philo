@@ -6,11 +6,21 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:12 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/17 18:55:39 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/19 14:56:30 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
 
 int	print_error(char *msg)
 {
@@ -26,4 +36,28 @@ long	get_time(void)
 	if (gettimeofday(&time, NULL) == -1)
 		return (print_error("Error gettimeofday"), -1);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+void	print_state(t_philo *philo, char *msg)
+{
+	pthread_mutex_lock(&philo->data->mutex_print);
+	if (is_running(philo->data))
+		printf("%ld %d %s\n", get_time() - philo->data->start, philo->philo_id,
+			msg);
+	pthread_mutex_unlock(&philo->data->mutex_print);
+}
+
+void	print_death(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->mutex_print);
+	printf("%ld %d DIED\n", get_time() - philo->data->start, philo->philo_id);
+	pthread_mutex_unlock(&philo->data->mutex_print);
+}
+
+void	ft_usleep(long ms)
+{
+	long	time;
+
+	time = get_time();
+	while (ms > get_time() - time)
+		usleep(1000);
 }
