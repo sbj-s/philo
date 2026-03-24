@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:37:48 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/17 19:21:23 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:50:30 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	init_forks(t_data *data)
 
 int	init_philos(t_data *data)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	data->philo = malloc(sizeof(t_philo) * data->number_of_philosopher);
 	if (!data->philo)
 		return (0);
@@ -65,8 +67,9 @@ int	init_philos(t_data *data)
 		data->philo[i].last_meal = data->start;
 		data->philo[i].meal_count = 0;
 		data->philo[i].data = data;
-        data->philo[i].left_fork = &data->fork[i];
-        data->philo[i].right_fork = &data->fork[(i + 1) % data->number_of_philosopher];
+		data->philo[i].left_fork = &data->fork[i];
+		data->philo[i].right_fork = &data->fork[(i + 1)
+			% data->number_of_philosopher];
 		i++;
 	}
 	return (1);

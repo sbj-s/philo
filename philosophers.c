@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:05 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/19 14:41:09 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:44:32 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,23 @@ int	is_running(t_data *data)
 	status = data->simulation_run;
 	pthread_mutex_unlock(&data->mutex_die);
 	return (status);
+}
+
+void	clean(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i++ < data->number_of_philosopher)
+	{
+		pthread_mutex_destroy(&data->fork[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&data->mutex_print);
+	pthread_mutex_destroy(&data->mutex_die);
+	free(data->fork);
+	free(data->philo);
+	free(data);
 }
 
 int	main(int argc, char **argv)
@@ -38,21 +55,13 @@ int	main(int argc, char **argv)
 	if (!init_philos(data))
 		return (1);
 	i = 0;
-	while (i < data->number_of_philosopher)
-	{
+	while (i++ < data->number_of_philosopher)
 		pthread_create(&data->philo[i].philo, NULL, routine, &data->philo[i]);
-		i++;
-	}
 	pthread_create(&monitor, NULL, monitoring, data);
 	i = 0;
-	while (i < data->number_of_philosopher)
-	{
+	while (i++ < data->number_of_philosopher)
 		pthread_join(data->philo[i].philo, NULL);
-		i++;
-	}
 	pthread_join(monitor, NULL);
-	free(data->fork);
-	free(data->philo);
 	free(data);
 	return (0);
 }

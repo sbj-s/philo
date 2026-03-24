@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 16:58:14 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/17 18:55:06 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:51:59 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ long	ft_atol(const char *str)
 	return (sign * res);
 }
 
-
 int	check_args(int argc, char **argv)
 {
-	int i = 1;
-	long nb;
+	int		i;
+	long	nb;
 
+	i = 1;
 	if (argc > 6 || argc < 5)
 		return (print_error("error, wrong number arg"));
 	while (argv[i])

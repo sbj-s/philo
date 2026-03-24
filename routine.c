@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:08 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/21 19:41:19 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:47:01 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_eat(t_philo *philo)
 	philo->meal_count++;
 	pthread_mutex_unlock(&philo->data->mutex_die);
 	print_state(philo, "is eating");
-	// printf("%d\n", philo->meal_count);
 	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
@@ -56,6 +55,7 @@ void	ft_think(t_philo *philo)
 	print_state(philo, "is thinking");
 	ft_usleep(1);
 }
+
 void	ft_alone(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
@@ -75,7 +75,7 @@ void	*routine(void *arg)
 		return (NULL);
 	}
 	if (philo->philo_id % 2 == 0)
-		ft_usleep(philo->data->time_to_eat / 2);
+		ft_usleep(50);
 	while (is_running(philo->data))
 	{
 		ft_eat(philo);
