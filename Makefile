@@ -4,6 +4,7 @@ SRCS =  init.c \
 		philosophers.c \
 		routine.c \
 		utils.c \
+		utils2.c \
 
 OBJS = $(SRCS:.c=.o)
 

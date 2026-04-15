@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:05 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/24 13:44:32 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/04/15 15:13:56 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,40 @@ int	is_running(t_data *data)
 	return (status);
 }
 
-void	clean(t_data *data)
+static int	create_threads(t_data *data, pthread_t *monitor)
 {
 	int	i;
 
 	i = 0;
-	while (i++ < data->number_of_philosopher)
+	while (i < data->number_of_philosopher)
 	{
-		pthread_mutex_destroy(&data->fork[i]);
+		if (pthread_create(&data->philo[i].philo, NULL, routine,
+				&data->philo[i]))
+			return (0);
 		i++;
 	}
-	pthread_mutex_destroy(&data->mutex_print);
-	pthread_mutex_destroy(&data->mutex_die);
-	free(data->fork);
-	free(data->philo);
-	free(data);
+	if (pthread_create(monitor, NULL, monitoring, data))
+		return (0);
+	return (1);
+}
+
+void	joind_thread(t_data *data, pthread_t *monitor)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->number_of_philosopher)
+	{
+		pthread_join(data->philo[i].philo, NULL);
+		i++;
+	}
+	pthread_join(*monitor, NULL);
 }
 
 int	main(int argc, char **argv)
 {
 	t_data		*data;
 	pthread_t	monitor;
-	int			i;
 
 	if (!check_args(argc, argv))
 		return (1);
@@ -54,14 +66,11 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!init_philos(data))
 		return (1);
-	i = 0;
-	while (i++ < data->number_of_philosopher)
-		pthread_create(&data->philo[i].philo, NULL, routine, &data->philo[i]);
-	pthread_create(&monitor, NULL, monitoring, data);
-	i = 0;
-	while (i++ < data->number_of_philosopher)
-		pthread_join(data->philo[i].philo, NULL);
-	pthread_join(monitor, NULL);
+	if (!create_threads(data, &monitor))
+		return (1);
+	joind_thread(data, &monitor);
+	free(data->fork);
+	free(data->philo);
 	free(data);
 	return (0);
 }

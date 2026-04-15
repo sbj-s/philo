@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:37:53 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/24 13:46:13 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/04/15 15:13:40 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	check_meals(t_data *data)
 	while (i < data->number_of_philosopher)
 	{
 		pthread_mutex_lock(&data->mutex_die);
-		if (data->philo[i].meal_count < data->number_of_times_each_philosopher_must_eat)
+		if (data->philo[i].meal_count < data
+			->number_of_times_each_philosopher_must_eat)
 		{
 			pthread_mutex_unlock(&data->mutex_die);
 			return (0);
@@ -53,11 +54,13 @@ int	check_meals(t_data *data)
 void	*monitoring(void *arg)
 {
 	t_data	*data;
+	int		i;
 
+	i = 0;
 	data = (t_data *)arg;
 	while (1)
 	{
-		for (int i = 0; i < data->number_of_philosopher; i++)
+		if (i < data->number_of_philosopher)
 		{
 			if (check_death(data, i))
 				return (NULL);

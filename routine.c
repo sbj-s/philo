@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:08 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/24 13:47:01 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:12:11 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	ft_eat(t_philo *philo)
 	if (philo->philo_id % 2 == 0 || philo->data->number_of_philosopher % 2 != 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
-		print_state(philo, "take a fork");
+		print_state(philo, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
-		print_state(philo, "take a fork");
+		print_state(philo, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->left_fork);
-		print_state(philo, "take a fork");
+		print_state(philo, "has taken a fork");
 		pthread_mutex_lock(philo->right_fork);
-		print_state(philo, "take a fork");
+		print_state(philo, "has taken a fork");
 	}
 	pthread_mutex_lock(&philo->data->mutex_die);
 	philo->last_meal = get_time();
