@@ -6,7 +6,7 @@
 /*   By: ssabound <ssabound@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 16:38:12 by ssabound          #+#    #+#             */
-/*   Updated: 2026/03/24 13:47:12 by ssabound         ###   ########.fr       */
+/*   Updated: 2026/04/26 12:51:42 by ssabound         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ void	print_state(t_philo *philo, char *msg)
 void	print_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->mutex_print);
-	printf("%ld %d DIED\n", get_time() - philo->data->start, philo->philo_id);
+	printf("%ld %d died\n", get_time() - philo->data->start, philo->philo_id);
 	pthread_mutex_unlock(&philo->data->mutex_print);
 }
